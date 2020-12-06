@@ -4,7 +4,7 @@
       Kindly answer the following quick survey questions..
     </h4>
     <div class="action-point mt-2">
-      <section class="form-container">
+      <form class="form-container" @submit.prevent="submitSurvey">
         <div id="survey-form" class="form">
           <div class="form-group">
             <label for="isWKUInvestor">Are you a WKC Investor? </label>
@@ -13,18 +13,22 @@
               <option>Yes</option>
               <option>No</option>
             </select>
+            <small class="error-message"
+                   v-if="isRegistrationSubmitted && formValidity.isWKUInvestor === true">
+              This question needs answering!
+            </small>
           </div>
           <div class="form-group" v-if="survey.isWKUInvestor === 'Yes'">
             <label for="nameOfMoU">When did you become an investor with WKC? </label>
             <input type="date" class="form-control" v-model="survey.dateOfJoining"
                    id="nameOfMoU">
           </div>
-          <div class="form-group" v-if="survey.isWKUInvestor === true">
+          <div class="form-group" v-if="survey.isWKUInvestor === 'Yes'">
             <label for="when">What is the name on your MoU? </label>
             <input type="email" class="form-control" v-model="survey.nameOfMoU"
                    id="when">
           </div>
-          <div class="form-group" v-if="survey.isWKUInvestor === true">
+          <div class="form-group" v-if="survey.isWKUInvestor === 'Yes'">
             <label for="comment">Leave a comment for your experience so far </label>
             <input type="text" class="form-control" v-model="survey.comment"
                    id="comment" placeholder="enter your comment">
@@ -34,32 +38,44 @@
           <div class="form-group">
             <label for="name">Name</label>
             <input type="text" class="form-control" v-model="survey.userName"
-                   id="name">
+                   id="name" required>
+            <small class="error-message"
+                   v-if="isRegistrationSubmitted && formValidity.userName === true">
+              Name is required!</small>
           </div>
           <div class="form-group">
             <label for="userMail">Email</label>
             <input type="text" class="form-control" v-model="survey.userEmail"
-                   id="userMail">
+                   id="userMail" required>
+            <small class="error-message"
+                   v-if="isRegistrationSubmitted && formValidity.userEmail === true">
+              Email is required!</small>
           </div>
           <div class="form-group">
             <label for="location">Location</label>
             <input type="text" class="form-control" v-model="survey.Location"
-                   id="location">
+                   id="location" required>
+            <small class="error-message"
+                   v-if="isRegistrationSubmitted && formValidity.Location === true">
+              Location is required!</small>
           </div>
           <div class="form-group">
             <label for="gender">Gender</label>
             <select id="gender" class="form-control
-          form-control-sm" v-model="survey.Gender">
+          form-control-sm" v-model="survey.Gender" required>
               <option>Male</option>
               <option>Female</option>
             </select>
+            <small class="error-message"
+                   v-if="isRegistrationSubmitted && formValidity.Gender === true">
+              Gender is required!</small>
           </div>
         </div>
-        <button @click.prevent="submitSurvey"
+        <button type="submit"
                 class="btn btn-sm btn-primary">
           Proceed
         </button>
-      </section>
+      </form>
     </div>
   </div>
 </template>
@@ -68,6 +84,17 @@ export default {
   name: 'User-Register',
   data() {
     return {
+      formValidity: {
+        userName: null,
+        userEmail: null,
+        Location: null,
+        Gender: null,
+        comment: null,
+        isWKUInvestor: null,
+        dateOfJoining: null,
+        nameOfMoU: null,
+      },
+      isRegistrationSubmitted: false,
       survey: {
         userName: null,
         userEmail: null,
@@ -82,8 +109,40 @@ export default {
   },
   methods: {
     submitSurvey() {
+      this.checkFormValidity();
+    },
+    checkFormValidity() {
+      this.isRegistrationSubmitted = true;
+      if (this.survey.isWKUInvestor === null) {
+        this.formValidity.isWKUInvestor = true;
+      } else if (this.survey.userName === null) {
+        this.formValidity.isWKUInvestor = false;
+        this.formValidity.userName = true;
+      } else if (this.survey.userEmail === null) {
+        this.formValidity.isWKUInvestor = false;
+        this.formValidity.userName = false;
+        this.formValidity.userEmail = true;
+      } else if (this.formValidity.userName === null) {
+        this.formValidity.isWKUInvestor = false;
+        this.formValidity.userName = false;
+        this.formValidity.userEmail = false;
+        this.formValidity.Location = true;
+      } else if (this.formValidity.Gender === null) {
+        this.formValidity.isWKUInvestor = false;
+        this.formValidity.userName = false;
+        this.formValidity.userEmail = false;
+        this.formValidity.Location = false;
+        this.formValidity.Gender = true;
+      } else {
+        this.registerUser();
+      }
+    },
+    registerUser() {
       console.log(this.survey);
     },
+  },
+  created() {
+    this.isRegistrationSubmitted = false;
   },
 };
 </script>
@@ -113,19 +172,7 @@ export default {
   box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.1);
 }
 
-/*.form-container .form {*/
-/*  max-width: 300px;*/
-/*  padding: 0 20px;*/
-/*  position: absolute;*/
-/*  top: 130px;*/
-/*  transition: transform 0.8s;*/
-/*}*/
-
-/*#survey-form {*/
-/*  left: -300px;*/
-/*}*/
-
-/*#details-form {*/
-/*  left: 0;*/
-/*}*/
+.error-message {
+  color: red;
+}
 </style>
