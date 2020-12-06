@@ -2,7 +2,8 @@
   <div class="work-space">
     <div class="d-flex justify-content-between mb-2">
       <p>Welcome Admin</p>
-      <button class="btn btn-sm btn-outline-info">
+      <button class="btn btn-sm btn-outline-info"
+              data-toggle="modal" data-target="#exampleModal">
         + Add New Attendee
       </button>
     </div>
@@ -47,12 +48,129 @@
         </tbody>
       </table>
     </div>
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+         aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Add Attendee</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <form @submit.prevent="addNewAttendee">
+            <div class="modal-body">
+              <div id="details-form" class="form">
+                <div class="form-group">
+                  <label for="name">Name</label>
+                  <input type="text" class="form-control" v-model="survey.userName"
+                         id="name" required>
+                </div>
+                <div class="form-group">
+                  <label for="userMail">Email</label>
+                  <input type="text" class="form-control" v-model="survey.userEmail"
+                         id="userMail" required>
+                </div>
+                <div class="form-group">
+                  <label for="phone">Phone Number</label>
+                  <input type="text" class="form-control" v-model="survey.userPhone"
+                         id="phone" required>
+                </div>
+                <div class="form-group">
+                  <label for="location">Location</label>
+                  <select id="location" class="form-control
+            form-control-sm" v-model="survey.Location" required>
+                    <option v-for="(state, index) in nigerianStates" :key="index">{{state}}</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="gender">Gender</label>
+                  <select id="gender" class="form-control
+            form-control-sm" v-model="survey.Gender" required>
+                    <option>Male</option>
+                    <option>Female</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-primary">
+                <span class="spinner-grow" role="status" v-if="isSubmittingUser">
+                  <span class="sr-only">Loading...</span>
+                </span>
+                <span v-if="!isSubmittingUser">Proceed</span>
+              </button>
+              </div>
+          </form>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 export default {
   name: 'Admin-work-space',
+  data() {
+    return {
+      usersList: null,
+      usersArray: [],
+      backendURL: 'https://blink-party-default-rtdb.firebaseio.com/users.json',
+      notUniqueMail: false,
+      isSubmittingUser: false,
+      survey: {
+        userName: null,
+        userEmail: null,
+        Location: null,
+        Gender: null,
+        comment: null,
+        isWKUInvestor: null,
+        dateOfJoining: null,
+        userPhone: null,
+        nameOfMoU: null,
+      },
+      nigerianStates: [
+        'Abia',
+        'Adamawa',
+        'Akwa Ibom',
+        'Anambra',
+        'Bauchi',
+        'Bayelsa',
+        'Benue',
+        'Borno',
+        'Cross River',
+        'Delta',
+        'Ebonyi',
+        'Edo',
+        'Ekiti',
+        'Enugu',
+        'FCT - Abuja',
+        'Gombe',
+        'Imo',
+        'Jigawa',
+        'Kaduna',
+        'Kano',
+        'Katsina',
+        'Kebbi',
+        'Kogi',
+        'Kwara',
+        'Lagos',
+        'Nasarawa',
+        'Niger',
+        'Ogun',
+        'Ondo',
+        'Osun',
+        'Oyo',
+        'Plateau',
+        'Rivers',
+        'Sokoto',
+        'Taraba',
+        'Yobe',
+        'Zamfara',
+      ],
+    };
+  },
   computed: {
     allUsers() {
       return this.$store.state.users;
@@ -67,6 +185,55 @@ export default {
           console.log(err);
         });
     },
+    addNewAttendee() {
+      let isUniqueEmail = false;
+      this.allUsers.forEach((user) => {
+        if (user.userEmail === this.survey.userEmail) {
+          isUniqueEmail = true;
+        }
+      });
+      if (!isUniqueEmail) {
+        this.registerUser();
+      } else {
+        this.notUniqueMail = true;
+      }
+    },
+    registerUser() {
+      this.usersList = null;
+      this.usersArray = [];
+      this.isSubmittingUser = true;
+      this.$http.post(this.backendURL, this.survey).then(() => {
+        this.isSubmittingUser = false;
+        this.survey = {
+          userName: null,
+          userEmail: null,
+          Location: null,
+          Gender: null,
+          comment: null,
+          isWKUInvestor: null,
+          dateOfJoining: null,
+          userPhone: null,
+          nameOfMoU: null,
+        };
+        this.fetchAllUsers();
+      }).catch(() => {
+        this.isSubmittingUser = false;
+      });
+    },
+    fetchAllUsers() {
+      this.$http.get(this.backendURL).then((response) => {
+        this.usersList = response.data;
+        this.processUsersData();
+      });
+    },
+    processUsersData() {
+      // eslint-disable-next-line no-restricted-syntax
+      for (const [key, value] of Object.entries(this.usersList)) {
+        value.id = key;
+        this.usersArray.push(value);
+      }
+      this.$store.dispatch('pushUsersFromDataBaseToAttendeeList', this.usersArray);
+    },
   },
 };
 </script>
@@ -77,5 +244,9 @@ export default {
 }
 .table-responsive {
   box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.1);
+}
+.spinner-grow {
+  width: 1.5rem;
+  height: 1.5rem;
 }
 </style>
