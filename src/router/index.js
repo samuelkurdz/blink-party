@@ -59,6 +59,15 @@ const routes = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "about" */ '../views/Download.vue'),
+    beforeEnter: (to, from, next) => {
+      if (store.getters.userState !== null) {
+        next();
+      } else {
+        // eslint-disable-next-line no-alert
+        alert('Email not Registered For Event');
+        next({ name: 'Home' });
+      }
+    },
   },
   {
     path: '/confirmed',
