@@ -26,6 +26,9 @@ export default new Vuex.Store({
         }
       });
     },
+    setSingleUser: (state, userDetails) => {
+      state.singleUserDetail = userDetails;
+    },
   },
   actions: {
     pushUsersFromDataBaseToAttendeeList({ commit }, user) {
@@ -38,11 +41,15 @@ export default new Vuex.Store({
     removeUserAction({ commit }, userId) {
       commit('removeUserFromList', userId);
     },
+    setSingleUserAction({ commit }, userDetails) {
+      commit('setSingleUser', userDetails);
+    },
   },
   modules: {
   },
   getters: {
     loginState: (state) => state.isLoggedIn,
     userState: (state) => state.singleUserDetail,
+    allUsers: (state) => state.users,
   },
 });

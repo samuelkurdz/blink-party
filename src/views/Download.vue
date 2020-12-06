@@ -1,12 +1,20 @@
 <template>
   <div class="downloader">
     <p>Download occurs here</p>
+    <p>
+      Welcome {{userDetails.userName}}
+    </p>
   </div>
 </template>
 
 <script>
 export default {
   name: 'Download',
+  computed: {
+    userDetails() {
+      return this.$store.getters.userState;
+    },
+  },
 };
 </script>
 
