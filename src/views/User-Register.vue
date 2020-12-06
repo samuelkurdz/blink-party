@@ -63,7 +63,10 @@
         </div>
         <button type="submit" v-if="isWKCDataFilled === true"
                 class="btn btn-sm btn-primary">
-          Proceed
+          <span class="spinner-grow" role="status" v-if="isSubmittingUser">
+            <span class="sr-only">Loading...</span>
+          </span>
+          <span v-if="!isSubmittingUser">Proceed</span>
         </button>
       </form>
     </div>
@@ -74,7 +77,9 @@ export default {
   name: 'User-Register',
   data() {
     return {
+      backendURL: 'https://blink-party-default-rtdb.firebaseio.com/users.json',
       isWKCDataFilled: false,
+      isSubmittingUser: false,
       survey: {
         userName: null,
         userEmail: null,
@@ -137,8 +142,13 @@ export default {
       this.registerUser();
     },
     registerUser() {
-      console.log(this.survey);
-      this.$router.push('confirmed');
+      this.isSubmittingUser = true;
+      this.$http.post(this.backendURL, this.survey).then(() => {
+        this.$router.push('confirmed');
+        this.isSubmittingUser = false;
+      }).catch(() => {
+        this.isSubmittingUser = false;
+      });
     },
   },
   created() {
@@ -172,4 +182,8 @@ export default {
   box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.1);
 }
 
+.spinner-grow {
+  width: 1.5rem;
+  height: 1.5rem;
+}
 </style>
