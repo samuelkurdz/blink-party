@@ -49,6 +49,11 @@
                    id="userMail" required>
           </div>
           <div class="form-group">
+            <label for="phone">Phone Number</label>
+            <input type="text" class="form-control" v-model="survey.userPhone"
+                   id="phone" required>
+          </div>
+          <div class="form-group">
             <label for="location">Location</label>
             <select id="location" class="form-control
           form-control-sm" v-model="survey.Location" required>
@@ -92,6 +97,7 @@ export default {
         comment: null,
         isWKUInvestor: null,
         dateOfJoining: null,
+        userPhone: null,
         nameOfMoU: null,
       },
       nigerianStates: [
@@ -144,7 +150,6 @@ export default {
     },
     checkFormValidity() {
       let isUniqueEmail = false;
-      console.log(this.allUsers);
       this.allUsers.forEach((user) => {
         if (user.userEmail === this.survey.userEmail) {
           isUniqueEmail = true;
