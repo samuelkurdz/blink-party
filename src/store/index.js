@@ -19,6 +19,13 @@ export default new Vuex.Store({
       // simplified line
       state.isLoggedIn = token != null;
     },
+    removeUserFromList: (state, userId) => {
+      state.users.forEach((user, index) => {
+        if (user.id === userId) {
+          state.users.splice(index, 1);
+        }
+      });
+    },
   },
   actions: {
     pushUsersFromDataBaseToAttendeeList({ commit }, user) {
@@ -27,6 +34,9 @@ export default new Vuex.Store({
     // admin login/logout
     setToken({ commit }, token) {
       commit('setToken', token);
+    },
+    removeUserAction({ commit }, userId) {
+      commit('removeUserFromList', userId);
     },
   },
   modules: {
