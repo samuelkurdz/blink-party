@@ -19,31 +19,31 @@
         </tr>
         </thead>
         <tbody>
-        <tr v-for="user in allUsers" :key="user.id" class="text-nowrap">
-          <td>{{ user.userName }}</td>
-          <td>{{ user.userEmail }}</td>
-          <td>{{ user.userPhone }}</td>
-          <td>{{ user.id }}</td>
-          <td>{{ user.Gender }}</td>
-          <td>
-            <div class="dropdown">
-              <span class="badge dropdown-toggle p-2" type="button"
-                      id="dropdownMenuButton" data-toggle="dropdown"
-                      aria-haspopup="true" aria-expanded="false">
-                ...
-              </span>
-              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <a class="dropdown-item cursor" href="javascript:void(0)">
-                  View {{ user.userName }} Survey
-                </a>
-                <a class="dropdown-item text-danger cursor"
-                   href="javascript:void(0)" @click="deleteUser(user.id)">
-                  Delete User
-                </a>
+          <tr v-for="user in allUsers" :key="user.id" class="text-nowrap">
+            <td>{{ user.userName }}</td>
+            <td>{{ user.userEmail }}</td>
+            <td>{{ user.userPhone }}</td>
+            <td>{{ user.id }}</td>
+            <td>{{ user.Gender }}</td>
+            <td>
+              <div class="dropdown">
+                <span class="badge dropdown-toggle p-2" type="button"
+                        id="dropdownMenuButton" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
+                  ...
+                </span>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                  <a class="dropdown-item cursor" href="javascript:void(0)">
+                    View {{ user.userName }} Survey
+                  </a>
+                  <a class="dropdown-item text-danger cursor"
+                     href="javascript:void(0)" @click="deleteUser(user.id)">
+                    Delete User
+                  </a>
+                </div>
               </div>
-            </div>
-          </td>
-        </tr>
+            </td>
+          </tr>
         </tbody>
       </table>
     </div>
