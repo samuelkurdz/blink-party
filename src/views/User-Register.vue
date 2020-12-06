@@ -4,29 +4,31 @@
       Kindly answer the following quick survey questions,
     </h4>
     <div class="action-point mt-2">
-      <section>
-        <div class="form-group">
-          <label for="isWKUInvestor">Are you a WKC Investor? </label>
-          <select id="isWKUInvestor" class="form-control
+      <section class="form-container">
+        <div class="form">
+          <div class="form-group">
+            <label for="isWKUInvestor">Are you a WKC Investor? </label>
+            <select id="isWKUInvestor" class="form-control
           form-control-sm" v-model="survey.isWKUInvestor">
-            <option>Yes</option>
-            <option>No</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label for="nameOfMoU">When did you become an investor with WKC? </label>
-          <input type="date" class="form-control" v-model="survey.dateOfJoining"
-                 id="nameOfMoU">
-        </div>
-        <div class="form-group">
-          <label for="when">What is the name on your MoU? </label>
-          <input type="email" class="form-control" v-model="survey.nameOfMoU"
-                 id="when">
-        </div>
-        <div class="form-group">
-          <label for="comment">Leave a comment for your experience so far </label>
-          <input type="text" class="form-control" v-model="survey.comment"
-                 id="comment" placeholder="enter your comment">
+              <option>Yes</option>
+              <option>No</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="nameOfMoU">When did you become an investor with WKC? </label>
+            <input type="date" class="form-control" v-model="survey.dateOfJoining"
+                   id="nameOfMoU">
+          </div>
+          <div class="form-group">
+            <label for="when">What is the name on your MoU? </label>
+            <input type="email" class="form-control" v-model="survey.nameOfMoU"
+                   id="when">
+          </div>
+          <div class="form-group">
+            <label for="comment">Leave a comment for your experience so far </label>
+            <input type="text" class="form-control" v-model="survey.comment"
+                   id="comment" placeholder="enter your comment">
+          </div>
         </div>
         <button @click.prevent="submitSurvey"
                 class="btn btn-sm btn-primary">
@@ -75,5 +77,14 @@ export default {
 .action-point {
   display: flex;
   justify-content: center;
+}
+
+.form-container {
+  background: #fff;
+  position: relative;
+  padding: 20px;
+  margin: auto;
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.1);
+  overflow: hidden;
 }
 </style>
