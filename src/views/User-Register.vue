@@ -5,6 +5,9 @@
     </h4>
     <div class="action-point mt-2">
       <form class="form-container" @submit.prevent="submitSurvey">
+        <div class="alert alert-danger" role="alert" v-if="notUniqueMail">
+          this email has been already registered, go back to print your ticket
+        </div>
         <div id="survey-form" class="form" v-if="isWKCDataFilled === false">
           <div class="form-group">
             <label for="isWKUInvestor">Are you a WKC Investor? </label>
@@ -78,6 +81,7 @@ export default {
   data() {
     return {
       backendURL: 'https://blink-party-default-rtdb.firebaseio.com/users.json',
+      notUniqueMail: false,
       isWKCDataFilled: false,
       isSubmittingUser: false,
       survey: {
@@ -139,7 +143,18 @@ export default {
       this.checkFormValidity();
     },
     checkFormValidity() {
-      this.registerUser();
+      let isUniqueEmail = false;
+      console.log(this.allUsers);
+      this.allUsers.forEach((user) => {
+        if (user.userEmail === this.survey.userEmail) {
+          isUniqueEmail = true;
+        }
+      });
+      if (!isUniqueEmail) {
+        this.registerUser();
+      } else {
+        this.notUniqueMail = true;
+      }
     },
     registerUser() {
       this.isSubmittingUser = true;
@@ -153,6 +168,11 @@ export default {
   },
   created() {
     this.isWKCDataFilled = false;
+  },
+  computed: {
+    allUsers() {
+      return this.$store.state.users;
+    },
   },
 };
 </script>
