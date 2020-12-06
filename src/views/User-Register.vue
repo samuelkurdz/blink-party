@@ -5,7 +5,7 @@
     </h4>
     <div class="action-point mt-2">
       <form class="form-container" @submit.prevent="submitSurvey">
-        <div id="survey-form" class="form">
+        <div id="survey-form" class="form" v-if="isWKCDataFilled === false">
           <div class="form-group">
             <label for="isWKUInvestor">Are you a WKC Investor? </label>
             <select id="isWKUInvestor" class="form-control
@@ -30,7 +30,7 @@
                    id="comment" placeholder="enter your comment">
           </div>
           <button class="btn btn-sm btn-primary"
-                  v-if="isWKCDataFilled === false" @click="proceedFromWKC">
+                  @click="proceedFromWKC" :disabled="survey.isWKUInvestor === null">
             Proceed
           </button>
         </div>
@@ -47,8 +47,10 @@
           </div>
           <div class="form-group">
             <label for="location">Location</label>
-            <input type="text" class="form-control" v-model="survey.Location"
-                   id="location" required>
+            <select id="location" class="form-control
+          form-control-sm" v-model="survey.Location" required>
+              <option v-for="(state, index) in nigerianStates" :key="index">{{state}}</option>
+            </select>
           </div>
           <div class="form-group">
             <label for="gender">Gender</label>
@@ -83,6 +85,45 @@ export default {
         dateOfJoining: null,
         nameOfMoU: null,
       },
+      nigerianStates: [
+        'Abia',
+        'Adamawa',
+        'Akwa Ibom',
+        'Anambra',
+        'Bauchi',
+        'Bayelsa',
+        'Benue',
+        'Borno',
+        'Cross River',
+        'Delta',
+        'Ebonyi',
+        'Edo',
+        'Ekiti',
+        'Enugu',
+        'FCT - Abuja',
+        'Gombe',
+        'Imo',
+        'Jigawa',
+        'Kaduna',
+        'Kano',
+        'Katsina',
+        'Kebbi',
+        'Kogi',
+        'Kwara',
+        'Lagos',
+        'Nasarawa',
+        'Niger',
+        'Ogun',
+        'Ondo',
+        'Osun',
+        'Oyo',
+        'Plateau',
+        'Rivers',
+        'Sokoto',
+        'Taraba',
+        'Yobe',
+        'Zamfara',
+      ],
     };
   },
   methods: {
@@ -131,7 +172,4 @@ export default {
   box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.1);
 }
 
-.error-message {
-  color: red;
-}
 </style>
