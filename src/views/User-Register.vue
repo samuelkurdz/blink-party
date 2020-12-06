@@ -13,10 +13,6 @@
               <option>Yes</option>
               <option>No</option>
             </select>
-            <small class="error-message"
-                   v-if="isRegistrationSubmitted && formValidity.isWKUInvestor === true">
-              This question needs answering!
-            </small>
           </div>
           <div class="form-group" v-if="survey.isWKUInvestor === 'Yes'">
             <label for="nameOfMoU">When did you become an investor with WKC? </label>
@@ -33,31 +29,26 @@
             <input type="text" class="form-control" v-model="survey.comment"
                    id="comment" placeholder="enter your comment">
           </div>
+          <button class="btn btn-sm btn-primary"
+                  v-if="isWKCDataFilled === false" @click="proceedFromWKC">
+            Proceed
+          </button>
         </div>
-        <div id="details-form" class="form">
+        <div id="details-form" class="form" v-if="isWKCDataFilled === true">
           <div class="form-group">
             <label for="name">Name</label>
             <input type="text" class="form-control" v-model="survey.userName"
                    id="name" required>
-            <small class="error-message"
-                   v-if="isRegistrationSubmitted && formValidity.userName === true">
-              Name is required!</small>
           </div>
           <div class="form-group">
             <label for="userMail">Email</label>
             <input type="text" class="form-control" v-model="survey.userEmail"
                    id="userMail" required>
-            <small class="error-message"
-                   v-if="isRegistrationSubmitted && formValidity.userEmail === true">
-              Email is required!</small>
           </div>
           <div class="form-group">
             <label for="location">Location</label>
             <input type="text" class="form-control" v-model="survey.Location"
                    id="location" required>
-            <small class="error-message"
-                   v-if="isRegistrationSubmitted && formValidity.Location === true">
-              Location is required!</small>
           </div>
           <div class="form-group">
             <label for="gender">Gender</label>
@@ -66,12 +57,9 @@
               <option>Male</option>
               <option>Female</option>
             </select>
-            <small class="error-message"
-                   v-if="isRegistrationSubmitted && formValidity.Gender === true">
-              Gender is required!</small>
           </div>
         </div>
-        <button type="submit"
+        <button type="submit" v-if="isWKCDataFilled === true"
                 class="btn btn-sm btn-primary">
           Proceed
         </button>
@@ -84,17 +72,7 @@ export default {
   name: 'User-Register',
   data() {
     return {
-      formValidity: {
-        userName: null,
-        userEmail: null,
-        Location: null,
-        Gender: null,
-        comment: null,
-        isWKUInvestor: null,
-        dateOfJoining: null,
-        nameOfMoU: null,
-      },
-      isRegistrationSubmitted: false,
+      isWKCDataFilled: false,
       survey: {
         userName: null,
         userEmail: null,
@@ -108,41 +86,22 @@ export default {
     };
   },
   methods: {
+    proceedFromWKC() {
+      this.isWKCDataFilled = true;
+    },
     submitSurvey() {
       this.checkFormValidity();
     },
     checkFormValidity() {
-      this.isRegistrationSubmitted = true;
-      if (this.survey.isWKUInvestor === null) {
-        this.formValidity.isWKUInvestor = true;
-      } else if (this.survey.userName === null) {
-        this.formValidity.isWKUInvestor = false;
-        this.formValidity.userName = true;
-      } else if (this.survey.userEmail === null) {
-        this.formValidity.isWKUInvestor = false;
-        this.formValidity.userName = false;
-        this.formValidity.userEmail = true;
-      } else if (this.formValidity.userName === null) {
-        this.formValidity.isWKUInvestor = false;
-        this.formValidity.userName = false;
-        this.formValidity.userEmail = false;
-        this.formValidity.Location = true;
-      } else if (this.formValidity.Gender === null) {
-        this.formValidity.isWKUInvestor = false;
-        this.formValidity.userName = false;
-        this.formValidity.userEmail = false;
-        this.formValidity.Location = false;
-        this.formValidity.Gender = true;
-      } else {
-        this.registerUser();
-      }
+      this.registerUser();
     },
     registerUser() {
       console.log(this.survey);
+      this.$router.push('confirmed');
     },
   },
   created() {
-    this.isRegistrationSubmitted = false;
+    this.isWKCDataFilled = false;
   },
 };
 </script>
