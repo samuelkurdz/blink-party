@@ -1,7 +1,10 @@
 <template>
   <div class="work-space">
     <div class="d-flex justify-content-between mb-2">
-      <p>Welcome Admin</p>
+      <div style="line-height: 4px">
+        <p>Welcome Admin</p>
+        <p>You have {{allUsers.length}} registered Attendees</p>
+      </div>
       <button class="btn btn-sm btn-outline-info"
               data-toggle="modal" data-target="#exampleModal">
         + Add New Attendee
@@ -11,16 +14,18 @@
       <table class="table table-hover">
         <thead class="thead-dark">
         <tr>
+          <th scope="col">#</th>
           <th scope="col">Name</th>
           <th scope="col">Email</th>
           <th scope="col">Phone No</th>
-          <th scope="col">Code</th>
+          <th scope="col">Serial No</th>
           <th scope="col">Gender</th>
           <th></th>
         </tr>
         </thead>
         <tbody>
-          <tr v-for="user in allUsers" :key="user.id" class="text-nowrap">
+          <tr v-for="(user, index) in allUsers" :key="user.id" class="text-nowrap">
+            <td> {{index + 1 }} </td>
             <td>{{ user.userName }}</td>
             <td>{{ user.userEmail }}</td>
             <td>{{ user.userPhone }}</td>
@@ -61,6 +66,9 @@
           <form @submit.prevent="addNewAttendee">
             <div class="modal-body">
               <div id="details-form" class="form">
+                <div class="alert alert-danger" role="alert" v-if="notUniqueMail">
+                  this email has been already registered.
+                </div>
                 <div class="form-group">
                   <label for="name">Name</label>
                   <input type="text" class="form-control" v-model="survey.userName"
@@ -204,6 +212,7 @@ export default {
       this.isSubmittingUser = true;
       this.$http.post(this.backendURL, this.survey).then(() => {
         this.isSubmittingUser = false;
+        this.notUniqueMail = false;
         this.survey = {
           userName: null,
           userEmail: null,
