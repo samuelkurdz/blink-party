@@ -1,9 +1,8 @@
 <template>
   <div class="work-space">
     <div class="d-flex justify-content-between mb-2">
-      <div style="line-height: 4px">
-        <p>Welcome Admin</p>
-        <p>You have {{allUsers.length}} registered Attendees</p>
+      <div>
+        <p>Welcome Admin, ({{allUsers.length}} Attendees)</p>
       </div>
       <button class="btn btn-sm btn-outline-info"
               data-toggle="modal" data-target="#exampleModal">
