@@ -181,7 +181,7 @@ export default {
   },
   created() {
     this.isWKCDataFilled = false;
-    this.maxNumberAchieved = true;
+    this.maxNumberAchieved = false;
   },
   computed: {
     allUsers() {

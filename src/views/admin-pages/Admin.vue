@@ -45,7 +45,7 @@ export default {
   },
   methods: {
     loginAdmin() {
-      if (this.adminEmail === 'kurdzsamuel@gmail.com' && this.adminPassword === 'password') {
+      if (this.adminEmail === 'admin@wkcblingparty.com' && this.adminPassword === 'Password2020') {
         const token = uuid();
         this.$store.dispatch('setToken', token);
         this.$router.push('manage-users');
