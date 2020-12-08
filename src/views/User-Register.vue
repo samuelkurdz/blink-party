@@ -8,6 +8,9 @@
         <div class="alert alert-danger" role="alert" v-if="notUniqueMail">
           this email has been already registered, go back to print your ticket
         </div>
+        <div class="alert alert-danger" role="alert" v-if="maxNumberAchieved">
+          Sorry, The Party can no longer accept new attendee.
+        </div>
         <div id="survey-form" class="form" v-if="isWKCDataFilled === false">
           <div class="form-group">
             <label for="isWKUInvestor">Are you a WKC Investor? </label>
@@ -88,6 +91,7 @@ export default {
       backendURL: 'https://blink-party-default-rtdb.firebaseio.com/users.json',
       notUniqueMail: false,
       isWKCDataFilled: false,
+      maxNumberAchieved: false,
       isSubmittingUser: false,
       survey: {
         userName: null,
@@ -149,16 +153,20 @@ export default {
       this.checkFormValidity();
     },
     checkFormValidity() {
-      let isUniqueEmail = false;
-      this.allUsers.forEach((user) => {
-        if (user.userEmail === this.survey.userEmail) {
-          isUniqueEmail = true;
+      if (this.allUsers.length < 700) {
+        let isUniqueEmail = false;
+        this.allUsers.forEach((user) => {
+          if (user.userEmail === this.survey.userEmail) {
+            isUniqueEmail = true;
+          }
+        });
+        if (!isUniqueEmail) {
+          this.registerUser();
+        } else {
+          this.notUniqueMail = true;
         }
-      });
-      if (!isUniqueEmail) {
-        this.registerUser();
       } else {
-        this.notUniqueMail = true;
+        this.maxNumberAchieved = true;
       }
     },
     registerUser() {
@@ -173,6 +181,7 @@ export default {
   },
   created() {
     this.isWKCDataFilled = false;
+    this.maxNumberAchieved = true;
   },
   computed: {
     allUsers() {
