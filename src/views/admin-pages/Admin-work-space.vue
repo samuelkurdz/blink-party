@@ -28,7 +28,7 @@
             <td>{{ user.userName }}</td>
             <td>{{ user.userEmail }}</td>
             <td>{{ user.userPhone }}</td>
-            <td>{{ user.id }}</td>
+            <td>{{ user.id| parseId }}</td>
             <td>{{ user.Gender }}</td>
             <td>
               <div class="dropdown">
@@ -290,6 +290,11 @@ export default {
     },
     selectSurveyDetails(data) {
       this.surveyDetails = data;
+    },
+  },
+  filters: {
+    parseId(value) {
+      return value.substring(1);
     },
   },
 };

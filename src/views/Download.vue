@@ -32,7 +32,7 @@
                 Thank you for choosing to be a part of WKC bling party.
               </h6>
               <img src="../assets/barcodes.jpg" alt="barcode">
-              <h6>{{userDetails.id}}</h6>
+              <h6>{{userDetails.id| parseId}}</h6>
             </div>
             <div class="ticket-image">
             </div>
@@ -70,6 +70,11 @@ export default {
   computed: {
     userDetails() {
       return this.$store.getters.userState;
+    },
+  },
+  filters: {
+    parseId(value) {
+      return value.substring(1);
     },
   },
 };
