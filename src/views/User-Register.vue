@@ -22,13 +22,8 @@
           </div>
           <div class="form-group" v-if="survey.isWKUInvestor === 'Yes'">
             <label for="nameOfMoU">When did you become an investor with WKC? </label>
-            <input type="date" class="form-control" v-model="survey.dateOfJoining"
-                   id="nameOfMoU">
-          </div>
-          <div class="form-group" v-if="survey.isWKUInvestor === 'Yes'">
-            <label for="when">What is the name on your MoU? </label>
-            <input type="email" class="form-control" v-model="survey.nameOfMoU"
-                   id="when">
+            <input type="month" class="form-control" v-model="survey.dateOfJoining"
+                   id="nameOfMoU" >
           </div>
           <div class="form-group" v-if="survey.isWKUInvestor === 'Yes'">
             <label for="comment">Leave a comment for your experience so far </label>
@@ -102,7 +97,6 @@ export default {
         isWKUInvestor: null,
         dateOfJoining: null,
         userPhone: null,
-        nameOfMoU: null,
       },
       nigerianStates: [
         'Abia',

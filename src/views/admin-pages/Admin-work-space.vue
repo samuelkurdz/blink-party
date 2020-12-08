@@ -139,12 +139,6 @@
                   }}
                 </p>
                 <p>
-                  Name of MoU? :
-                  {{ surveyDetails.hasOwnProperty('nameOfMoU') ? surveyDetails.nameOfMoU :
-                  ''
-                  }}
-                </p>
-                <p>
                   comment so far :
                   {{ surveyDetails.hasOwnProperty('comment') ? surveyDetails.comment :
                   ''
