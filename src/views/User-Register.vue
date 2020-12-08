@@ -1,6 +1,6 @@
 <template>
   <div class="user-register">
-    <h4 class="text-center">
+    <h4 class="text-center text-white">
       Kindly answer the following quick survey questions..
     </h4>
     <div class="action-point mt-2">
@@ -184,11 +184,14 @@ export default {
 
 <style scoped>
 .user-register {
+  background-image:url('../assets/bg-image.png');
+  background-size:cover;
+  background-position:center;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 100%;
+  height: 100vh;
   width: 100vw;
   padding: 2rem 1rem;
 }

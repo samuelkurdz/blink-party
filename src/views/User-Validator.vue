@@ -73,6 +73,10 @@ export default {
 
 <style scoped>
 .user-validator {
+  background-image:url('../assets/bg-image.png');
+  background-size:cover;
+  background-position:center;
+  color: white;
   display: flex;
   flex-direction: column;
   justify-content: center;
