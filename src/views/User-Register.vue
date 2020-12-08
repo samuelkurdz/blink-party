@@ -143,6 +143,8 @@ export default {
         'Yobe',
         'Zamfara',
       ],
+      usersList: null,
+      usersArray: [],
     };
   },
   methods: {
@@ -172,11 +174,26 @@ export default {
     registerUser() {
       this.isSubmittingUser = true;
       this.$http.post(this.backendURL, this.survey).then(() => {
+        this.fetchAllUsers();
         this.$router.push('confirmed');
         this.isSubmittingUser = false;
       }).catch(() => {
         this.isSubmittingUser = false;
       });
+    },
+    fetchAllUsers() {
+      this.$http.get(this.backendURL).then((response) => {
+        this.usersList = response.data;
+        this.processUsersData();
+      });
+    },
+    processUsersData() {
+      // eslint-disable-next-line no-restricted-syntax
+      for (const [key, value] of Object.entries(this.usersList)) {
+        value.id = key;
+        this.usersArray.push(value);
+      }
+      this.$store.dispatch('pushUsersFromDataBaseToAttendeeList', this.usersArray);
     },
   },
   created() {
