@@ -1,15 +1,18 @@
 <template>
   <div class="home">
     <h2 class="text-center">
-      Welcome To Bling Party
+      Welcome To The Bling Party
     </h2>
     <div class="action-point mt-2">
       <button class="btn btn-primary" @click="routerToUserValidator">
         Get Ticket
       </button>
-      <button class="btn btn-success ml-4"
+      <button class="btn btn-success ml-4" v-if="allUsers.length < 800"
               @click="routerToUserRegister">
         Register
+      </button>
+      <button class="btn btn-danger ml-4" v-if="allUsers.length >= 800">
+        Registering for the Bling Party is now closed
       </button>
     </div>
   </div>
@@ -28,6 +31,11 @@ export default {
     },
     routerToUserRegister() {
       this.$router.push('register');
+    },
+  },
+  computed: {
+    allUsers() {
+      return this.$store.state.users;
     },
   },
 };

@@ -155,7 +155,7 @@ export default {
       this.checkFormValidity();
     },
     checkFormValidity() {
-      if (this.allUsers.length < 700) {
+      if (this.allUsers.length < 800) {
         let isUniqueEmail = false;
         this.allUsers.forEach((user) => {
           if (user.userEmail === this.survey.userEmail) {
