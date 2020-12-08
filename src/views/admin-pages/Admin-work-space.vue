@@ -289,7 +289,6 @@ export default {
       this.$store.dispatch('pushUsersFromDataBaseToAttendeeList', this.usersArray);
     },
     selectSurveyDetails(data) {
-      console.log(data);
       this.surveyDetails = data;
     },
   },
