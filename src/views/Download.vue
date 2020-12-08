@@ -20,7 +20,7 @@
               <h4> Hey {{userDetails.userName}}</h4>
               <p>
                 Thanks for registering for the WKC bling party. This ticket can only be used by one
-                participant. Your ticket is only valid fo the bearer of the name above.
+                participant. Your ticket is only valid for the bearer of the name above.
               </p>
               <br>
               <p>
