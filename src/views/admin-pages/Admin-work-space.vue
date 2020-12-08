@@ -39,7 +39,8 @@
                   ...
                 </span>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                  <a class="dropdown-item cursor" href="javascript:void(0)">
+                  <a class="dropdown-item cursor" href="javascript:void(0)" data-toggle="modal"
+                     data-target="#surveyModal" @click="selectSurveyDetails(user)">
                     View {{ user.userName }} Survey
                   </a>
                   <a class="dropdown-item text-danger cursor"
@@ -114,6 +115,50 @@
         </div>
       </div>
     </div>
+    <div class="modal fade" id="surveyModal" tabindex="-1" role="dialog"
+         aria-labelledby="surveyModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="surveyModalLabel">Survey Details</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+            <div class="modal-body">
+              <div id="details">
+                <p>
+                  Are you a WKU Investor? :
+                  {{ surveyDetails.hasOwnProperty('isWKUInvestor') ? surveyDetails.isWKUInvestor :
+                    'no'
+                  }}
+                </p>
+                <p>
+                  Date of joining WKU as an Investor? :
+                  {{ surveyDetails.hasOwnProperty('dateOfJoining') ? surveyDetails.dateOfJoining :
+                  ''
+                  }}
+                </p>
+                <p>
+                  Name of MoU? :
+                  {{ surveyDetails.hasOwnProperty('nameOfMoU') ? surveyDetails.nameOfMoU :
+                  ''
+                  }}
+                </p>
+                <p>
+                  comment so far :
+                  {{ surveyDetails.hasOwnProperty('comment') ? surveyDetails.comment :
+                  ''
+                  }}
+                </p>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -177,6 +222,7 @@ export default {
         'Yobe',
         'Zamfara',
       ],
+      surveyDetails: {},
     };
   },
   computed: {
@@ -242,6 +288,10 @@ export default {
         this.usersArray.push(value);
       }
       this.$store.dispatch('pushUsersFromDataBaseToAttendeeList', this.usersArray);
+    },
+    selectSurveyDetails(data) {
+      console.log(data);
+      this.surveyDetails = data;
     },
   },
 };
