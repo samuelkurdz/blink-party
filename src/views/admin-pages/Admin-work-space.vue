@@ -19,6 +19,8 @@
           <th scope="col">Phone No</th>
           <th scope="col">Serial No</th>
           <th scope="col">Gender</th>
+          <th scope="col">WKU Investor?</th>
+          <th scope="col">Date Joined</th>
           <th></th>
         </tr>
         </thead>
@@ -30,6 +32,8 @@
             <td>{{ user.userPhone }}</td>
             <td>{{ user.id| parseId }}</td>
             <td>{{ user.Gender }}</td>
+            <td>{{ user.isWKUInvestor }}</td>
+            <td>{{ user.dateOfJoining }}</td>
             <td>
               <div class="dropdown">
                 <span class="badge dropdown-toggle p-2" type="button"
@@ -40,7 +44,7 @@
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                   <a class="dropdown-item cursor" href="javascript:void(0)" data-toggle="modal"
                      data-target="#surveyModal" @click="selectSurveyDetails(user)">
-                    View {{ user.userName }} Survey
+                    View {{ user.userName }} Comment
                   </a>
                   <a class="dropdown-item text-danger cursor"
                      href="javascript:void(0)" @click="deleteUser(user.id)">
@@ -119,7 +123,7 @@
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="surveyModalLabel">Survey Details</h5>
+            <h5 class="modal-title" id="surveyModalLabel">{{ surveyDetails.userName }} Comment</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
@@ -127,19 +131,7 @@
             <div class="modal-body">
               <div id="details">
                 <p>
-                  Are you a WKU Investor? :
-                  {{ surveyDetails.hasOwnProperty('isWKUInvestor') ? surveyDetails.isWKUInvestor :
-                    'no'
-                  }}
-                </p>
-                <p>
-                  Date of joining WKU as an Investor? :
-                  {{ surveyDetails.hasOwnProperty('dateOfJoining') ? surveyDetails.dateOfJoining :
-                  ''
-                  }}
-                </p>
-                <p>
-                  comment so far :
+                  <span class="text-primary">Comment:</span>
                   {{ surveyDetails.hasOwnProperty('comment') ? surveyDetails.comment :
                   ''
                   }}
